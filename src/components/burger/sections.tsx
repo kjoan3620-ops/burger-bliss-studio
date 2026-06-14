@@ -413,15 +413,56 @@ function OrderCTA() {
 
 function MiniBurger() {
   return (
-    <div className="animate-spin-slow inline-block">
-      <svg width="32" height="32" viewBox="0 0 32 32">
-        <ellipse cx="16" cy="9" rx="12" ry="6" fill="#d98b3a" />
-        <rect x="4" y="13" width="24" height="3" fill="#3aa84a" />
-        <rect x="4" y="15" width="24" height="3" fill="#c0392b" />
-        <rect x="4" y="17" width="24" height="4" fill="#5a2d18" />
-        <ellipse cx="16" cy="23" rx="12" ry="5" fill="#c97a2f" />
-      </svg>
-    </div>
+    <img
+      src={logoFlamecraft}
+      alt="Flamecraft logo"
+      width={40}
+      height={40}
+      className="animate-spin-slow inline-block h-10 w-10"
+    />
+  );
+}
+
+const ATMOSPHERE = [
+  { src: atmInterior, alt: "Warm neon-lit interior of the Flamecraft dining room", label: "The Room" },
+  { src: atmTakeaway, alt: "Hands holding a freshly wrapped Flamecraft burger", label: "To Go" },
+  { src: atmSpread, alt: "Overhead table spread of two burgers, fries and drinks", label: "The Spread" },
+];
+
+function Atmosphere() {
+  return (
+    <section className="relative bg-ink py-32">
+      <div className="mx-auto max-w-7xl px-6">
+        <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }}>
+          <p className="text-xs font-semibold tracking-[0.4em] text-flame uppercase">The Room</p>
+          <h2 className="mt-3 font-display text-5xl text-white md:text-7xl">A place worth showing up for.</h2>
+        </motion.div>
+        <div className="mt-12 grid grid-cols-1 gap-4 md:grid-cols-3">
+          {ATMOSPHERE.map((a, i) => (
+            <motion.div
+              key={a.label}
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.15, duration: 0.8 }}
+              className="group relative aspect-[4/5] overflow-hidden rounded-2xl"
+            >
+              <img
+                src={a.src}
+                alt={a.alt}
+                loading="lazy"
+                className="h-full w-full object-cover transition-transform duration-1000 group-hover:scale-110"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent" />
+              <div className="absolute bottom-6 left-6">
+                <p className="text-[10px] uppercase tracking-[0.3em] text-flame">{String(i + 1).padStart(2, "0")}</p>
+                <p className="mt-1 font-display text-3xl text-white">{a.label}</p>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
   );
 }
 
@@ -457,6 +498,7 @@ export function Sections() {
       <Showcase />
       <Story />
       <Ingredients />
+      <Atmosphere />
       <Testimonials />
       <OrderCTA />
       <Footer />
