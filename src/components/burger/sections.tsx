@@ -238,17 +238,34 @@ function Story() {
             ))}
           </p>
         </div>
-        <div className="relative h-[500px] overflow-hidden rounded-3xl border border-flame/30 glow-flame">
-          <Grill3D />
-          <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent" />
-        </div>
+        <motion.div
+          initial={{ opacity: 0, scale: 1.05 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 1 }}
+          className="relative h-[500px] overflow-hidden rounded-3xl border border-flame/30 glow-flame"
+        >
+          <img
+            src={storyGrill}
+            alt="Chef flame-grilling burger patties on a cast-iron grill at night, sparks flying"
+            loading="lazy"
+            className="h-full w-full object-cover"
+          />
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent" />
+          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_50%_60%,transparent_30%,rgba(0,0,0,0.6))]" />
+          <div className="absolute bottom-6 left-6 right-6">
+            <p className="font-display text-xs uppercase tracking-[0.4em] text-flame">Est. 2013</p>
+            <p className="mt-2 font-display text-3xl text-white">Hand-fired. Every patty. Every shift.</p>
+          </div>
+        </motion.div>
       </div>
     </section>
   );
 }
 
 function Ingredients() {
-  const [active, setActive] = useState<{ name: string; info: string } | null>(INGREDIENTS[0]);
+  const [activeIdx, setActiveIdx] = useState(0);
+  const active = INGREDIENTS[activeIdx];
   return (
     <section className="relative bg-ink py-32">
       <div className="mx-auto max-w-7xl px-6">
@@ -258,9 +275,40 @@ function Ingredients() {
         </motion.div>
         <div className="mt-12 grid grid-cols-1 gap-12 lg:grid-cols-[2fr_1fr]">
           <div className="relative h-[520px] overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-b from-zinc-900 to-black">
-            <Orbit3D onSelect={setActive} />
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(255,69,0,0.18),transparent_60%)]" />
+            {/* center showcase */}
+            <motion.div
+              key={active.name}
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.5 }}
+              className="absolute left-1/2 top-1/2 h-56 w-56 -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-full border-2 border-flame shadow-[0_0_60px_rgba(255,69,0,0.5)]"
+            >
+              <img src={active.img} alt={active.name} className="h-full w-full object-cover" />
+            </motion.div>
+            {/* orbit thumbnails */}
+            {INGREDIENTS.map((ing, i) => {
+              const angle = (i / INGREDIENTS.length) * Math.PI * 2 - Math.PI / 2;
+              const r = 200;
+              const x = Math.cos(angle) * r;
+              const y = Math.sin(angle) * r;
+              const isActive = i === activeIdx;
+              return (
+                <button
+                  key={ing.name}
+                  onClick={() => setActiveIdx(i)}
+                  style={{ left: `calc(50% + ${x}px)`, top: `calc(50% + ${y}px)` }}
+                  className={`absolute -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-full border-2 transition-all duration-300 ${
+                    isActive ? "h-20 w-20 border-gold shadow-[0_0_30px_rgba(255,215,0,0.6)]" : "h-16 w-16 border-white/30 hover:border-flame hover:scale-110"
+                  }`}
+                  aria-label={ing.name}
+                >
+                  <img src={ing.img} alt={ing.name} loading="lazy" className="h-full w-full object-cover" />
+                </button>
+              );
+            })}
             <span className="pointer-events-none absolute bottom-4 left-4 text-[10px] uppercase tracking-widest text-white/40">
-              Click an ingredient
+              Tap an ingredient
             </span>
           </div>
           <div className="flex items-center">
