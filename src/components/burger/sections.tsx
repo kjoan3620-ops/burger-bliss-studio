@@ -2,18 +2,39 @@ import { useEffect, useRef, useState } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { Burger3D } from "./Burger3D";
-import { Grill3D } from "./Grill3D";
-import { Orbit3D, INGREDIENTS } from "./Orbit3D";
+import heroBurger from "@/assets/hero-burger.jpg";
+import burgerInferno from "@/assets/burger-inferno.jpg";
+import burgerSmokestack from "@/assets/burger-smokestack.jpg";
+import burgerClassic from "@/assets/burger-classic.jpg";
+import burgerTruffle from "@/assets/burger-truffle.jpg";
+import burgerGreen from "@/assets/burger-green.jpg";
+import ingPatty from "@/assets/ingredient-patty.jpg";
+import ingCheese from "@/assets/ingredient-cheese.jpg";
+import ingTomato from "@/assets/ingredient-tomato.jpg";
+import ingLettuce from "@/assets/ingredient-lettuce.jpg";
+import ingBun from "@/assets/ingredient-bun.jpg";
+import storyGrill from "@/assets/story-grill.jpg";
+import atmInterior from "@/assets/atmosphere-interior.jpg";
+import atmTakeaway from "@/assets/atmosphere-takeaway.jpg";
+import atmSpread from "@/assets/atmosphere-spread.jpg";
+import logoFlamecraft from "@/assets/logo-flamecraft.png";
 
 if (typeof window !== "undefined") gsap.registerPlugin(ScrollTrigger);
 
 const PRODUCTS = [
-  { name: "The Inferno", price: "$14", ing: "Ghost pepper jack, jalapeño, chipotle aioli", kcal: 820, protein: 42, fat: 48, carbs: 38, color: "#ff4500" },
-  { name: "Smoke Stack", price: "$13", ing: "Aged cheddar, bacon, BBQ, fried onion", kcal: 880, protein: 45, fat: 52, carbs: 40, color: "#a3471a" },
-  { name: "The Classic", price: "$11", ing: "Lettuce, tomato, pickle, house sauce", kcal: 680, protein: 36, fat: 36, carbs: 42, color: "#d98b3a" },
-  { name: "Truffle Royale", price: "$18", ing: "Truffle aioli, brie, caramelized onion", kcal: 920, protein: 44, fat: 58, carbs: 38, color: "#ffd700" },
-  { name: "Green Beast", price: "$13", ing: "Plant patty, avocado, sprouts, vegan gouda", kcal: 590, protein: 28, fat: 28, carbs: 50, color: "#3aa84a" },
+  { name: "The Inferno", price: "$14", ing: "Ghost pepper jack, jalapeño, chipotle aioli", kcal: 820, protein: 42, fat: 48, carbs: 38, color: "#ff4500", img: burgerInferno },
+  { name: "Smoke Stack", price: "$13", ing: "Aged cheddar, bacon, BBQ, fried onion", kcal: 880, protein: 45, fat: 52, carbs: 40, color: "#a3471a", img: burgerSmokestack },
+  { name: "The Classic", price: "$11", ing: "Lettuce, tomato, pickle, house sauce", kcal: 680, protein: 36, fat: 36, carbs: 42, color: "#d98b3a", img: burgerClassic },
+  { name: "Truffle Royale", price: "$18", ing: "Truffle aioli, brie, caramelized onion", kcal: 920, protein: 44, fat: 58, carbs: 38, color: "#ffd700", img: burgerTruffle },
+  { name: "Green Beast", price: "$13", ing: "Plant patty, avocado, sprouts, vegan gouda", kcal: 590, protein: 28, fat: 28, carbs: 50, color: "#3aa84a", img: burgerGreen },
+];
+
+const INGREDIENTS = [
+  { name: "Aged Beef", info: "Grass-fed, 28-day dry-aged chuck and brisket blend. Ground daily, seared over open flame.", img: ingPatty },
+  { name: "Sharp Cheddar", info: "Two-year aged Vermont cheddar. Melts deep into the patty for that signature drip.", img: ingCheese },
+  { name: "Vine Tomato", info: "Heirloom vine-ripened, sliced thick. We only run them in peak season.", img: ingTomato },
+  { name: "Butter Lettuce", info: "Hydroponic butter lettuce from local growers. Crunch without the bitter.", img: ingLettuce },
+  { name: "Brioche Bun", info: "Made in-house at 4 AM. Enriched with egg yolk, brushed with butter, kissed with sesame.", img: ingBun },
 ];
 
 const TESTIMONIALS = [
@@ -24,17 +45,27 @@ const TESTIMONIALS = [
 ];
 
 function Hero() {
+  const { scrollY } = useScroll();
+  const y = useTransform(scrollY, [0, 800], [0, 200]);
+  const scale = useTransform(scrollY, [0, 800], [1.05, 1.2]);
   return (
     <section className="relative min-h-screen w-full overflow-hidden bg-ink">
-      <div className="absolute inset-0 z-0">
-        <Burger3D className="h-full w-full" />
-      </div>
-      <div className="pointer-events-none absolute inset-0 z-10 bg-gradient-to-b from-black/40 via-transparent to-black/80" />
+      <motion.div style={{ y, scale }} className="absolute inset-0 z-0">
+        <img
+          src={heroBurger}
+          alt="Flame-grilled signature burger with melted cheddar and char-marked beef patty"
+          className="h-full w-full object-cover"
+          fetchPriority="high"
+        />
+      </motion.div>
+      <div className="pointer-events-none absolute inset-0 z-10 bg-gradient-to-b from-black/50 via-black/20 to-black/95" />
+      <div className="pointer-events-none absolute inset-0 z-10 bg-[radial-gradient(ellipse_at_30%_50%,rgba(255,69,0,0.25),transparent_60%)]" />
+      <Particles />
       <div className="relative z-20 flex min-h-screen flex-col items-center justify-end px-6 pb-24 text-center">
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.6, duration: 0.8 }}
+          transition={{ delay: 0.4, duration: 0.8 }}
           className="mb-4 text-xs font-semibold tracking-[0.4em] text-flame uppercase"
         >
           Flame-fired since day one
@@ -42,7 +73,7 @@ function Hero() {
         <motion.h1
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.8, duration: 1 }}
+          transition={{ delay: 0.6, duration: 1 }}
           className="font-display text-6xl leading-[0.9] md:text-[9rem]"
         >
           <span className="block text-white">Built Different.</span>
@@ -51,7 +82,7 @@ function Hero() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 2.3, duration: 0.8 }}
+          transition={{ delay: 1.1, duration: 0.8 }}
           className="mt-10"
         >
           <a
@@ -65,7 +96,7 @@ function Hero() {
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 0.6 }}
-        transition={{ delay: 2.6, duration: 1 }}
+        transition={{ delay: 1.4, duration: 1 }}
         className="absolute bottom-6 left-1/2 z-20 -translate-x-1/2 text-xs tracking-[0.3em] text-white/60"
       >
         SCROLL ↓
@@ -95,15 +126,18 @@ function ProductCard({ p, i }: { p: (typeof PRODUCTS)[number]; i: number }) {
           style={{ backfaceVisibility: "hidden", borderColor: p.color }}
           className="absolute inset-0 flex flex-col justify-between rounded-3xl border-2 bg-zinc-900/80 p-6 backdrop-blur"
         >
-          <div
-            className="relative h-56 w-full overflow-hidden rounded-2xl"
-            style={{ background: `radial-gradient(circle at 50% 40%, ${p.color}aa, #0a0a0a 70%)` }}
-          >
-            <div
-              className="absolute inset-x-6 top-10 bottom-10 rounded-full opacity-90"
-              style={{ background: `radial-gradient(ellipse at center, ${p.color}, #2a0e00 80%)` }}
+          <div className="relative h-56 w-full overflow-hidden rounded-2xl bg-black">
+            <img
+              src={p.img}
+              alt={`${p.name} burger`}
+              loading="lazy"
+              className="h-full w-full object-cover transition-transform duration-700 hover:scale-110"
             />
-            <span className="absolute right-3 top-3 rounded-full bg-black/60 px-3 py-1 font-display text-sm text-gold">#{i + 1}</span>
+            <div
+              className="pointer-events-none absolute inset-0"
+              style={{ background: `radial-gradient(ellipse at 50% 100%, ${p.color}30, transparent 60%)` }}
+            />
+            <span className="absolute right-3 top-3 rounded-full bg-black/70 px-3 py-1 font-display text-sm text-gold backdrop-blur">#{i + 1}</span>
           </div>
           <div>
             <h3 className="font-display text-3xl text-white">{p.name}</h3>
