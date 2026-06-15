@@ -180,26 +180,62 @@ function Stat({ label, value }: { label: string; value: string }) {
 }
 
 function Showcase() {
-  const ref = useRef<HTMLDivElement>(null);
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!sectionRef.current || !trackRef.current) return;
+    const mm = gsap.matchMedia();
+    mm.add("(min-width: 768px)", () => {
+      const track = trackRef.current!;
+      const section = sectionRef.current!;
+      const distance = () => track.scrollWidth - window.innerWidth;
+      const tween = gsap.to(track, {
+        x: () => -distance(),
+        ease: "none",
+        scrollTrigger: {
+          trigger: section,
+          start: "top top",
+          end: () => "+=" + distance(),
+          scrub: 1,
+          pin: true,
+          anticipatePin: 1,
+          invalidateOnRefresh: true,
+        },
+      });
+      return () => {
+        tween.scrollTrigger?.kill();
+        tween.kill();
+      };
+    });
+    return () => mm.revert();
+  }, []);
+
   return (
-    <section className="relative bg-ink py-32">
-      <div className="mx-auto max-w-7xl px-6">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-        >
-          <p className="text-xs font-semibold tracking-[0.4em] text-flame uppercase">The Lineup</p>
-          <h2 className="mt-3 font-display text-5xl text-white md:text-7xl">Pick your weapon.</h2>
-        </motion.div>
-      </div>
-      <div ref={ref} className="mt-16 overflow-x-auto pb-8">
-        <div className="flex gap-6 px-6 md:px-[calc((100vw-80rem)/2+1.5rem)]">
-          {PRODUCTS.map((p, i) => (
-            <ProductCard key={p.name} p={p} i={i} />
-          ))}
-          <div className="w-8 shrink-0" />
+    <section ref={sectionRef} className="relative overflow-hidden bg-ink">
+      <div className="flex min-h-screen flex-col justify-center py-24 md:py-0">
+        <div className="mx-auto w-full max-w-7xl px-6 md:pt-32">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+          >
+            <p className="text-xs font-semibold tracking-[0.4em] text-flame uppercase">The Lineup</p>
+            <h2 className="mt-3 font-display text-5xl text-white md:text-7xl">Pick your weapon.</h2>
+            <p className="mt-4 hidden text-sm uppercase tracking-[0.3em] text-white/40 md:block">Scroll to reveal the lineup →</p>
+          </motion.div>
+        </div>
+        <div className="mt-10 overflow-x-auto pb-8 md:overflow-hidden md:pb-0">
+          <div
+            ref={trackRef}
+            className="flex gap-6 px-6 will-change-transform md:px-[10vw]"
+          >
+            {PRODUCTS.map((p, i) => (
+              <ProductCard key={p.name} p={p} i={i} />
+            ))}
+            <div className="w-[10vw] shrink-0" />
+          </div>
         </div>
       </div>
     </section>
