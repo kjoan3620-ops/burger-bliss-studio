@@ -1,47 +1,25 @@
 import { useEffect, useRef, useState } from "react";
+import { Link } from "@tanstack/react-router";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import heroBurger from "@/assets/hero-burger.jpg";
-import burgerInferno from "@/assets/burger-inferno.jpg";
-import burgerSmokestack from "@/assets/burger-smokestack.jpg";
-import burgerClassic from "@/assets/burger-classic.jpg";
-import burgerTruffle from "@/assets/burger-truffle.jpg";
-import burgerGreen from "@/assets/burger-green.jpg";
-import ingPatty from "@/assets/ingredient-patty.jpg";
-import ingCheese from "@/assets/ingredient-cheese.jpg";
-import ingTomato from "@/assets/ingredient-tomato.jpg";
-import ingLettuce from "@/assets/ingredient-lettuce.jpg";
-import ingBun from "@/assets/ingredient-bun.jpg";
+import { HERO_IMAGE, MENU, formatRWF, BRANCHES, DELIVERY, type MenuItem } from "@/data/menu";
+import { useCart } from "@/lib/cart";
 import storyGrill from "@/assets/story-grill.jpg";
 import atmInterior from "@/assets/atmosphere-interior.jpg";
 import atmTakeaway from "@/assets/atmosphere-takeaway.jpg";
 import atmSpread from "@/assets/atmosphere-spread.jpg";
-import logoFlamecraft from "@/assets/logo-flamecraft.png";
 
 if (typeof window !== "undefined") gsap.registerPlugin(ScrollTrigger);
 
-const PRODUCTS = [
-  { name: "The Inferno", price: "$14", ing: "Ghost pepper jack, jalapeño, chipotle aioli", kcal: 820, protein: 42, fat: 48, carbs: 38, color: "#ff4500", img: burgerInferno },
-  { name: "Smoke Stack", price: "$13", ing: "Aged cheddar, bacon, BBQ, fried onion", kcal: 880, protein: 45, fat: 52, carbs: 40, color: "#a3471a", img: burgerSmokestack },
-  { name: "The Classic", price: "$11", ing: "Lettuce, tomato, pickle, house sauce", kcal: 680, protein: 36, fat: 36, carbs: 42, color: "#d98b3a", img: burgerClassic },
-  { name: "Truffle Royale", price: "$18", ing: "Truffle aioli, brie, caramelized onion", kcal: 920, protein: 44, fat: 58, carbs: 38, color: "#ffd700", img: burgerTruffle },
-  { name: "Green Beast", price: "$13", ing: "Plant patty, avocado, sprouts, vegan gouda", kcal: 590, protein: 28, fat: 28, carbs: 50, color: "#3aa84a", img: burgerGreen },
-];
-
-const INGREDIENTS = [
-  { name: "Aged Beef", info: "Grass-fed, 28-day dry-aged chuck and brisket blend. Ground daily, seared over open flame.", img: ingPatty },
-  { name: "Sharp Cheddar", info: "Two-year aged Vermont cheddar. Melts deep into the patty for that signature drip.", img: ingCheese },
-  { name: "Vine Tomato", info: "Heirloom vine-ripened, sliced thick. We only run them in peak season.", img: ingTomato },
-  { name: "Butter Lettuce", info: "Hydroponic butter lettuce from local growers. Crunch without the bitter.", img: ingLettuce },
-  { name: "Brioche Bun", info: "Made in-house at 4 AM. Enriched with egg yolk, brushed with butter, kissed with sesame.", img: ingBun },
-];
+const FEATURED: MenuItem[] = MENU.filter((m) => m.bestSeller);
+const ACCENTS = ["#ff4500", "#ffd700", "#ff6b1a", "#e94e1b", "#ffae00"];
 
 const TESTIMONIALS = [
-  { name: "Marcus T.", stars: 5, text: "Best burger I've had in a decade. The Inferno actually slaps." },
-  { name: "Priya R.", stars: 5, text: "Truffle Royale is borderline criminal. I think about it weekly." },
-  { name: "Jake D.", stars: 5, text: "Smoke Stack changed my brain chemistry. 10/10." },
-  { name: "Lena O.", stars: 4, text: "Green Beast is the rare vegan burger I'd order over meat." },
+  { name: "Aline M.", stars: 5, text: "The Drunken Granny is unreal. Every visit, same order." },
+  { name: "Eric K.", stars: 5, text: "Best burger in Kigali, hands down. Wings are addictive too." },
+  { name: "Joyce U.", stars: 5, text: "Katsu burger and a watermelon mojito = Friday sorted." },
+  { name: "David N.", stars: 4, text: "Lunch pack is a steal. Quick, hot, juicy." },
 ];
 
 function Hero() {
@@ -52,8 +30,8 @@ function Hero() {
     <section className="relative min-h-screen w-full overflow-hidden bg-ink">
       <motion.div style={{ y, scale }} className="absolute inset-0 z-0">
         <img
-          src={heroBurger}
-          alt="Flame-grilled signature burger with melted cheddar and char-marked beef patty"
+          src={HERO_IMAGE}
+          alt="Burger Bros Kisimenti signature double cheeseburger with melted cheddar and char-marked beef patty"
           className="h-full w-full object-cover"
           fetchPriority="high"
         />
@@ -68,7 +46,7 @@ function Hero() {
           transition={{ delay: 0.4, duration: 0.8 }}
           className="mb-4 text-xs font-semibold tracking-[0.4em] text-flame uppercase"
         >
-          Flame-fired since day one
+          Kisimenti · Nyamirambo · Kigali
         </motion.p>
         <motion.h1
           initial={{ opacity: 0, y: 40 }}
@@ -76,21 +54,35 @@ function Hero() {
           transition={{ delay: 0.6, duration: 1 }}
           className="font-display text-6xl leading-[0.9] md:text-[9rem]"
         >
-          <span className="block text-white">Built Different.</span>
-          <span className="block text-gradient-flame">Eaten Better.</span>
+          <span className="block text-white">Juicy. Fast.</span>
+          <span className="block text-gradient-flame">Unforgettable.</span>
         </motion.h1>
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.9, duration: 0.8 }}
+          className="mt-6 max-w-xl text-base text-white/70 md:text-lg"
+        >
+          Kigali's juiciest burgers, tacos and wings — built bold at Burger Bros Kisimenti.
+        </motion.p>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1.1, duration: 0.8 }}
-          className="mt-10"
+          className="mt-10 flex flex-col items-center gap-3 sm:flex-row"
         >
-          <a
-            href="#order"
+          <Link
+            to="/order"
             className="inline-block rounded-full bg-flame px-10 py-4 font-display text-xl tracking-widest text-white transition-transform hover:scale-105 animate-flame-pulse"
           >
-            Order Now
-          </a>
+            ORDER NOW
+          </Link>
+          <Link
+            to="/menu"
+            className="inline-block rounded-full border border-white/30 px-10 py-4 font-display text-xl tracking-widest text-white hover:bg-white/10"
+          >
+            VIEW MENU
+          </Link>
         </motion.div>
       </div>
       <motion.div
@@ -105,77 +97,55 @@ function Hero() {
   );
 }
 
-function ProductCard({ p, i }: { p: (typeof PRODUCTS)[number]; i: number }) {
-  const [flipped, setFlipped] = useState(false);
+function ProductCard({ p, i }: { p: MenuItem; i: number }) {
+  const { add, open } = useCart();
+  const color = ACCENTS[i % ACCENTS.length];
   return (
     <motion.div
-      whileHover={{ rotateY: flipped ? 180 : 8, rotateX: -4, scale: 1.03 }}
+      whileHover={{ rotateY: 8, rotateX: -4, scale: 1.03 }}
       transition={{ type: "spring", stiffness: 200, damping: 18 }}
       style={{ transformStyle: "preserve-3d", perspective: 1200 }}
-      className="relative h-[480px] w-[320px] shrink-0 cursor-pointer"
-      onClick={() => setFlipped((f) => !f)}
+      className="relative h-[480px] w-[320px] shrink-0"
     >
-      <motion.div
-        animate={{ rotateY: flipped ? 180 : 0 }}
-        transition={{ duration: 0.7 }}
-        style={{ transformStyle: "preserve-3d" }}
-        className="relative h-full w-full"
+      <div
+        style={{ borderColor: color }}
+        className="flex h-full w-full flex-col justify-between rounded-3xl border-2 bg-zinc-900/80 p-6 backdrop-blur"
       >
-        {/* front */}
-        <div
-          style={{ backfaceVisibility: "hidden", borderColor: p.color }}
-          className="absolute inset-0 flex flex-col justify-between rounded-3xl border-2 bg-zinc-900/80 p-6 backdrop-blur"
-        >
-          <div className="relative h-56 w-full overflow-hidden rounded-2xl bg-black">
+        <div className="relative h-56 w-full overflow-hidden rounded-2xl bg-black">
+          {p.image && (
             <img
-              src={p.img}
-              alt={`${p.name} burger`}
+              src={p.image}
+              alt={`${p.name}`}
               loading="lazy"
               className="h-full w-full object-cover transition-transform duration-700 hover:scale-110"
             />
-            <div
-              className="pointer-events-none absolute inset-0"
-              style={{ background: `radial-gradient(ellipse at 50% 100%, ${p.color}30, transparent 60%)` }}
-            />
-            <span className="absolute right-3 top-3 rounded-full bg-black/70 px-3 py-1 font-display text-sm text-gold backdrop-blur">#{i + 1}</span>
-          </div>
-          <div>
-            <h3 className="font-display text-3xl text-white">{p.name}</h3>
-            <p className="mt-1 text-sm text-white/60">{p.ing}</p>
-            <div className="mt-4 flex items-center justify-between">
-              <span className="font-display text-2xl text-flame">{p.price}</span>
-              <button className="rounded-full bg-flame px-5 py-2 text-xs font-bold tracking-widest text-white hover:bg-orange-600">
-                ADD TO ORDER
-              </button>
-            </div>
-            <p className="mt-3 text-[10px] uppercase tracking-widest text-white/40">Tap card for nutrition</p>
+          )}
+          <div
+            className="pointer-events-none absolute inset-0"
+            style={{ background: `radial-gradient(ellipse at 50% 100%, ${color}30, transparent 60%)` }}
+          />
+          <span className="absolute right-3 top-3 rounded-full bg-black/70 px-3 py-1 font-display text-sm text-gold backdrop-blur">
+            #{i + 1}
+          </span>
+        </div>
+        <div>
+          <h3 className="font-display text-3xl text-white">{p.name}</h3>
+          <p className="mt-1 text-sm text-white/60 line-clamp-2">{p.description}</p>
+          <div className="mt-4 flex items-center justify-between">
+            <span className="font-display text-2xl text-flame">{formatRWF(p.price)}</span>
+            <button
+              onClick={() => {
+                add(p.id, 1);
+                open();
+              }}
+              className="rounded-full bg-flame px-5 py-2 text-xs font-bold tracking-widest text-white hover:bg-orange-600"
+            >
+              ADD TO ORDER
+            </button>
           </div>
         </div>
-        {/* back */}
-        <div
-          style={{ backfaceVisibility: "hidden", transform: "rotateY(180deg)", borderColor: p.color }}
-          className="absolute inset-0 flex flex-col justify-between rounded-3xl border-2 bg-zinc-900/95 p-8"
-        >
-          <h3 className="font-display text-3xl text-gold">{p.name}</h3>
-          <div className="space-y-4">
-            <Stat label="Calories" value={`${p.kcal} kcal`} />
-            <Stat label="Protein" value={`${p.protein} g`} />
-            <Stat label="Fat" value={`${p.fat} g`} />
-            <Stat label="Carbs" value={`${p.carbs} g`} />
-          </div>
-          <p className="text-[10px] uppercase tracking-widest text-white/40">Tap to flip back</p>
-        </div>
-      </motion.div>
+      </div>
     </motion.div>
-  );
-}
-
-function Stat({ label, value }: { label: string; value: string }) {
-  return (
-    <div className="flex items-center justify-between border-b border-white/10 pb-2">
-      <span className="text-xs uppercase tracking-widest text-white/50">{label}</span>
-      <span className="font-display text-xl text-white">{value}</span>
-    </div>
   );
 }
 
@@ -221,7 +191,7 @@ function Showcase() {
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
           >
-            <p className="text-xs font-semibold tracking-[0.4em] text-flame uppercase">The Lineup</p>
+            <p className="text-xs font-semibold tracking-[0.4em] text-flame uppercase">The Best Sellers</p>
             <h2 className="mt-3 font-display text-5xl text-white md:text-7xl">Pick your weapon.</h2>
             <p className="mt-4 hidden text-sm uppercase tracking-[0.3em] text-white/40 md:block">Scroll to reveal the lineup →</p>
           </motion.div>
@@ -231,8 +201,8 @@ function Showcase() {
             ref={trackRef}
             className="flex gap-6 px-6 will-change-transform md:px-[10vw]"
           >
-            {PRODUCTS.map((p, i) => (
-              <ProductCard key={p.name} p={p} i={i} />
+            {FEATURED.map((p, i) => (
+              <ProductCard key={p.id} p={p} i={i} />
             ))}
             <div className="w-[10vw] shrink-0" />
           </div>
@@ -259,13 +229,13 @@ function Story() {
     return () => ctx.revert();
   }, []);
   const text =
-    "We started in a back-alley garage with one cast-iron grill, a sack of brioche buns, and a stubborn idea: that a burger could be art. Twelve years later we still flame-sear every patty by hand.";
+    "Born in Kisimenti, raised on flames. Burger Bros has grown into Kigali's go-to spot for stacked, juicy burgers — now serving Kisimenti and Nyamirambo, with delivery citywide.";
   return (
     <section className="relative bg-ink py-32">
       <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-12 px-6 md:grid-cols-2">
         <div ref={ref}>
           <p className="text-xs font-semibold tracking-[0.4em] text-flame uppercase">Our Story</p>
-          <h2 className="mt-3 font-display text-5xl text-white md:text-6xl">From the back alley to the headlines.</h2>
+          <h2 className="mt-3 font-display text-5xl text-white md:text-6xl">From Kisimenti, with fire.</h2>
           <p className="mt-8 text-lg leading-relaxed text-white/70">
             {text.split(" ").map((w, i) => (
               <span key={i} data-word className="inline-block">
@@ -273,6 +243,12 @@ function Story() {
               </span>
             ))}
           </p>
+          <Link
+            to="/branches"
+            className="mt-8 inline-block rounded-full border border-flame/60 px-6 py-3 text-sm font-bold tracking-widest text-flame hover:bg-flame hover:text-white transition-colors"
+          >
+            FIND A BRANCH →
+          </Link>
         </div>
         <motion.div
           initial={{ opacity: 0, scale: 1.05 }}
@@ -290,7 +266,7 @@ function Story() {
           <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent" />
           <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_50%_60%,transparent_30%,rgba(0,0,0,0.6))]" />
           <div className="absolute bottom-6 left-6 right-6">
-            <p className="font-display text-xs uppercase tracking-[0.4em] text-flame">Est. 2013</p>
+            <p className="font-display text-xs uppercase tracking-[0.4em] text-flame">Kisimenti · Kigali</p>
             <p className="mt-2 font-display text-3xl text-white">Hand-fired. Every patty. Every shift.</p>
           </div>
         </motion.div>
@@ -299,69 +275,22 @@ function Story() {
   );
 }
 
-function Ingredients() {
-  const [activeIdx, setActiveIdx] = useState(0);
-  const active = INGREDIENTS[activeIdx];
+function DeliveryStrip() {
+  const items = [
+    { label: "Vuba Vuba", href: DELIVERY.vubaVuba },
+    { label: "Isokko", href: DELIVERY.isokko },
+    { label: "Direct Delivery", href: `tel:${DELIVERY.directPhone.replace(/\s/g, "")}` },
+    { label: "@burger_bros_kigali", href: DELIVERY.instagram },
+  ];
   return (
-    <section className="relative bg-ink py-32">
-      <div className="mx-auto max-w-7xl px-6">
-        <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }}>
-          <p className="text-xs font-semibold tracking-[0.4em] text-flame uppercase">Sourced Right</p>
-          <h2 className="mt-3 font-display text-5xl text-white md:text-7xl">Every ingredient earns its spot.</h2>
-        </motion.div>
-        <div className="mt-12 grid grid-cols-1 gap-12 lg:grid-cols-[2fr_1fr]">
-          <div className="relative h-[520px] overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-b from-zinc-900 to-black">
-            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(255,69,0,0.18),transparent_60%)]" />
-            {/* center showcase */}
-            <motion.div
-              key={active.name}
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.5 }}
-              className="absolute left-1/2 top-1/2 h-56 w-56 -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-full border-2 border-flame shadow-[0_0_60px_rgba(255,69,0,0.5)]"
-            >
-              <img src={active.img} alt={active.name} className="h-full w-full object-cover" />
-            </motion.div>
-            {/* orbit thumbnails */}
-            {INGREDIENTS.map((ing, i) => {
-              const angle = (i / INGREDIENTS.length) * Math.PI * 2 - Math.PI / 2;
-              const r = 200;
-              const x = Math.cos(angle) * r;
-              const y = Math.sin(angle) * r;
-              const isActive = i === activeIdx;
-              return (
-                <button
-                  key={ing.name}
-                  onClick={() => setActiveIdx(i)}
-                  style={{ left: `calc(50% + ${x}px)`, top: `calc(50% + ${y}px)` }}
-                  className={`absolute -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-full border-2 transition-all duration-300 ${
-                    isActive ? "h-20 w-20 border-gold shadow-[0_0_30px_rgba(255,215,0,0.6)]" : "h-16 w-16 border-white/30 hover:border-flame hover:scale-110"
-                  }`}
-                  aria-label={ing.name}
-                >
-                  <img src={ing.img} alt={ing.name} loading="lazy" className="h-full w-full object-cover" />
-                </button>
-              );
-            })}
-            <span className="pointer-events-none absolute bottom-4 left-4 text-[10px] uppercase tracking-widest text-white/40">
-              Tap an ingredient
-            </span>
-          </div>
-          <div className="flex items-center">
-            {active && (
-              <motion.div
-                key={active.name}
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                className="w-full rounded-2xl border border-flame/30 bg-zinc-900/60 p-8"
-              >
-                <p className="text-xs uppercase tracking-[0.3em] text-flame">Ingredient</p>
-                <h3 className="mt-2 font-display text-5xl text-white">{active.name}</h3>
-                <p className="mt-4 text-white/70">{active.info}</p>
-              </motion.div>
-            )}
-          </div>
-        </div>
+    <section className="border-y border-white/10 bg-black py-8">
+      <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-center gap-x-12 gap-y-3 px-6">
+        <span className="text-xs font-bold uppercase tracking-[0.3em] text-flame">Get it your way</span>
+        {items.map((i) => (
+          <a key={i.label} href={i.href} target="_blank" rel="noreferrer" className="font-display text-lg tracking-wider text-white/80 hover:text-flame">
+            {i.label}
+          </a>
+        ))}
       </div>
     </section>
   );
@@ -428,41 +357,62 @@ function Particles() {
 
 function OrderCTA() {
   return (
-    <section id="order" className="relative overflow-hidden bg-ink py-40">
-      <div className="absolute inset-0 bg-gradient-radial from-flame/40 via-transparent to-transparent" style={{ background: "radial-gradient(ellipse at center, rgba(255,69,0,0.35), transparent 60%)" }} />
+    <section className="relative overflow-hidden bg-ink py-40">
+      <div
+        className="absolute inset-0"
+        style={{ background: "radial-gradient(ellipse at center, rgba(255,69,0,0.35), transparent 60%)" }}
+      />
       <Particles />
       <div className="relative z-10 mx-auto max-w-4xl px-6 text-center">
         <h2 className="font-display text-6xl text-white md:text-9xl">
           <span className="text-gradient-flame">Hungry yet?</span>
         </h2>
-        <p className="mt-6 text-lg text-white/70">Order online in under 60 seconds. Fired up in ten.</p>
-        <a
-          href="#"
+        <p className="mt-6 text-lg text-white/70">Order online in under 60 seconds. Pickup, dine-in, or delivered hot to your door.</p>
+        <Link
+          to="/order"
           className="mt-12 inline-block rounded-full bg-flame px-14 py-6 font-display text-2xl tracking-widest text-white animate-flame-pulse hover:scale-105 transition-transform"
         >
-          Start an Order
-        </a>
+          START AN ORDER
+        </Link>
       </div>
     </section>
   );
 }
 
-function MiniBurger() {
+function BranchTeaser() {
   return (
-    <img
-      src={logoFlamecraft}
-      alt="Flamecraft logo"
-      width={40}
-      height={40}
-      className="animate-spin-slow inline-block h-10 w-10"
-    />
+    <section className="bg-ink py-32">
+      <div className="mx-auto max-w-7xl px-6">
+        <p className="text-xs font-semibold tracking-[0.4em] text-flame uppercase">Two Locations</p>
+        <h2 className="mt-3 font-display text-5xl text-white md:text-6xl">Come find us.</h2>
+        <div className="mt-10 grid gap-6 md:grid-cols-2">
+          {BRANCHES.map((b) => (
+            <div key={b.id} className="rounded-3xl border border-white/10 bg-zinc-900/60 p-8">
+              <p className="font-display text-3xl text-white">{b.name}</p>
+              <p className="mt-2 text-white/60">{b.address}</p>
+              <p className="mt-1 text-sm text-white/40">{b.hours}</p>
+              <div className="mt-6 flex flex-wrap gap-3">
+                {b.phones.map((p) => (
+                  <a key={p} href={`tel:${p.replace(/\s/g, "")}`} className="rounded-full bg-flame px-5 py-2 text-xs font-bold tracking-widest text-white hover:bg-orange-600">
+                    {p}
+                  </a>
+                ))}
+                <a href={b.mapsUrl} target="_blank" rel="noreferrer" className="rounded-full border border-white/30 px-5 py-2 text-xs font-bold tracking-widest text-white hover:bg-white/10">
+                  DIRECTIONS
+                </a>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
   );
 }
 
 const ATMOSPHERE = [
-  { src: atmInterior, alt: "Warm neon-lit interior of the Flamecraft dining room", label: "The Room" },
-  { src: atmTakeaway, alt: "Hands holding a freshly wrapped Flamecraft burger", label: "To Go" },
-  { src: atmSpread, alt: "Overhead table spread of two burgers, fries and drinks", label: "The Spread" },
+  { src: atmInterior, alt: "Warm neon-lit interior of Burger Bros Kisimenti", label: "The Room" },
+  { src: atmTakeaway, alt: "Hands holding a freshly wrapped Burger Bros burger", label: "To Go" },
+  { src: atmSpread, alt: "Overhead table spread of burgers, fries and drinks", label: "The Spread" },
 ];
 
 function Atmosphere() {
@@ -502,42 +452,17 @@ function Atmosphere() {
   );
 }
 
-function Footer() {
-  return (
-    <footer className="border-t border-white/10 bg-black py-12">
-      <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-6 px-6 md:flex-row">
-        <div className="flex items-center gap-3">
-          <MiniBurger />
-          <span className="font-display text-2xl tracking-widest text-white">FLAMECRAFT</span>
-        </div>
-        <nav className="flex gap-6 text-sm text-white/60">
-          <a href="#" className="hover:text-flame">Menu</a>
-          <a href="#" className="hover:text-flame">Locations</a>
-          <a href="#" className="hover:text-flame">Careers</a>
-          <a href="#" className="hover:text-flame">Press</a>
-        </nav>
-        <div className="flex gap-4 text-white/60">
-          <a href="#" aria-label="Instagram" className="hover:text-flame">IG</a>
-          <a href="#" aria-label="TikTok" className="hover:text-flame">TT</a>
-          <a href="#" aria-label="X" className="hover:text-flame">X</a>
-        </div>
-      </div>
-      <p className="mt-8 text-center text-xs text-white/30">© {new Date().getFullYear()} Flamecraft Burgers. Built different.</p>
-    </footer>
-  );
-}
-
 export function Sections() {
   return (
-    <main className="bg-ink">
+    <div className="bg-ink">
       <Hero />
+      <DeliveryStrip />
       <Showcase />
       <Story />
-      <Ingredients />
+      <BranchTeaser />
       <Atmosphere />
       <Testimonials />
       <OrderCTA />
-      <Footer />
-    </main>
+    </div>
   );
 }
