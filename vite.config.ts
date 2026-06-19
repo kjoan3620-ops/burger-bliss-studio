@@ -4,12 +4,47 @@
 //     componentTagger (dev-only), VITE_* env injection, @ path alias, React/TanStack dedupe,
 //     error logger plugins, and sandbox detection (port/host/strictPort).
 // You can pass additional config via defineConfig({ vite: { ... }, etc... }) if needed.
-import { defineConfig } from "@lovable.dev/vite-tanstack-config";
+// Pure-Vite static SPA build for Netlify hosting.
+//
+// We intentionally bypass the TanStack Start SSR plugin here — the project's
+// routes and components only use `@tanstack/react-router`, so the app runs
+// fine as a client-rendered SPA. `vite build` emits a complete `dist/client`
+// folder (index.html + hashed JS/CSS/assets), with no Node/Worker server
+// needed at runtime. `netlify.toml`'s `/* → /index.html` redirect makes
+// client-side routing work on refresh and deep links.
+//
+// `src/server.ts` and `src/start.ts` are kept untouched — they are dead code
+// in this build (nothing imports them) and remain available if SSR is ever
+// re-enabled.
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
+import tailwindcss from "@tailwindcss/vite";
+import tsconfigPaths from "vite-tsconfig-paths";
+import { TanStackRouterVite } from "@tanstack/router-plugin/vite";
 
 export default defineConfig({
-  tanstackStart: {
-    // Redirect TanStack Start's bundled server entry to src/server.ts (our SSR error wrapper).
-    // nitro/vite builds from this
-    server: { entry: "server" },
+  plugins: [
+    TanStackRouterVite({
+      target: "react",
+      autoCodeSplitting: true,
+      routesDirectory: "src/routes",
+      generatedRouteTree: "src/routeTree.gen.ts",
+    }),
+    react(),
+    tailwindcss(),
+    tsconfigPaths({ projects: ["./tsconfig.json"] }),
+  ],
+  build: {
+    outDir: "dist/client",
+    emptyOutDir: true,
+  },
+  server: {
+    host: "::",
+    port: 8080,
+    strictPort: true,
+  },
+  preview: {
+    host: "::",
+    port: 8080,
   },
 });
