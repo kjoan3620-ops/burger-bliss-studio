@@ -5,10 +5,10 @@ import { BRANCHES, DELIVERY } from "@/data/menu";
 export const Route = createFileRoute("/contact")({
   head: () => ({
     meta: [
-      { title: "Contact — Burger Bros Kisimenti" },
-      { name: "description", content: "Get in touch with Burger Bros Kisimenti. Phone, WhatsApp, Instagram, and delivery partners." },
-      { property: "og:title", content: "Contact — Burger Bros Kisimenti" },
-      { property: "og:description", content: "Phones, WhatsApp, Instagram, Vuba Vuba and Isokko." },
+      { title: "Contact — Best Burger Kigali" },
+      { name: "description", content: "Get in touch with Best Burger Kigali. Phone, WhatsApp, Instagram and TikTok." },
+      { property: "og:title", content: "Contact — Best Burger Kigali" },
+      { property: "og:description", content: "Phones, WhatsApp, Instagram @bestburger_kgl, TikTok." },
     ],
     links: [{ rel: "canonical", href: "/contact" }],
   }),
@@ -49,21 +49,16 @@ function ContactPage() {
 
           <div className="rounded-2xl border border-flame/30 bg-zinc-900/60 p-6">
             <p className="font-display text-2xl text-white">Delivery</p>
-            <p className="mt-1 text-sm text-white/50">Get it hot at your door.</p>
+            <p className="mt-1 text-sm text-white/50">Free delivery {DELIVERY.freeDeliveryWindow}.</p>
             <ul className="mt-4 space-y-3">
               <li>
-                <a href={DELIVERY.vubaVuba} target="_blank" rel="noreferrer" className="font-display text-xl text-white hover:text-flame">
-                  Vuba Vuba →
-                </a>
-              </li>
-              <li>
-                <a href={DELIVERY.isokko} target="_blank" rel="noreferrer" className="font-display text-xl text-white hover:text-flame">
-                  Isokko →
-                </a>
-              </li>
-              <li>
                 <a href={`tel:${DELIVERY.directPhone.replace(/\s/g, "")}`} className="font-display text-xl text-flame hover:text-orange-400">
-                  Direct: {DELIVERY.directPhone}
+                  {DELIVERY.directPhone}
+                </a>
+              </li>
+              <li>
+                <a href={`tel:${DELIVERY.altPhone.replace(/\s/g, "")}`} className="font-display text-xl text-flame hover:text-orange-400">
+                  {DELIVERY.altPhone}
                 </a>
               </li>
             </ul>
@@ -72,8 +67,11 @@ function ContactPage() {
           <div className="rounded-2xl border border-white/10 bg-zinc-900/60 p-6">
             <p className="font-display text-2xl text-white">Social</p>
             <p className="mt-1 text-sm text-white/50">Tag us. We repost.</p>
-            <a href={DELIVERY.instagram} target="_blank" rel="noreferrer" className="mt-4 inline-block font-display text-2xl text-flame hover:text-orange-400">
-              @burger_bros_kigali
+            <a href={DELIVERY.instagram} target="_blank" rel="noreferrer" className="mt-4 block font-display text-2xl text-flame hover:text-orange-400">
+              Instagram · @bestburger_kgl
+            </a>
+            <a href={DELIVERY.tiktok} target="_blank" rel="noreferrer" className="mt-2 block font-display text-2xl text-flame hover:text-orange-400">
+              TikTok · @bestburger_kgl
             </a>
           </div>
 

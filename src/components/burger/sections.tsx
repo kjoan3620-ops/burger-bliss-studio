@@ -16,9 +16,9 @@ const FEATURED: MenuItem[] = MENU.filter((m) => m.bestSeller);
 const ACCENTS = ["#ff4500", "#ffd700", "#ff6b1a", "#e94e1b", "#ffae00"];
 
 const TESTIMONIALS = [
-  { name: "Aline M.", stars: 5, text: "The Drunken Granny is unreal. Every visit, same order." },
+  { name: "Aline M.", stars: 5, text: "The Akabumbe is unreal. Every visit, same order." },
   { name: "Eric K.", stars: 5, text: "Best burger in Kigali, hands down. Wings are addictive too." },
-  { name: "Joyce U.", stars: 5, text: "Katsu burger and a watermelon mojito = Friday sorted." },
+  { name: "Joyce U.", stars: 5, text: "Chicken katsu burger and a watermelon mojito = Friday sorted." },
   { name: "David N.", stars: 4, text: "Lunch pack is a steal. Quick, hot, juicy." },
 ];
 
@@ -31,7 +31,7 @@ function Hero() {
       <motion.div style={{ y, scale }} className="absolute inset-0 z-0">
         <img
           src={HERO_IMAGE}
-          alt="Burger Bros Kisimenti signature double cheeseburger with melted cheddar and char-marked beef patty"
+          alt="Best Burger Kigali signature Akabumbe burger with melted cheese and char-marked beef patty"
           className="h-full w-full object-cover"
           fetchPriority="high"
         />
@@ -46,7 +46,7 @@ function Hero() {
           transition={{ delay: 0.4, duration: 0.8 }}
           className="mb-4 text-xs font-semibold tracking-[0.4em] text-flame uppercase"
         >
-          Kisimenti · Nyamirambo · Kigali
+          KGFL · Kigali · Home of the Akabumbe
         </motion.p>
         <motion.h1
           initial={{ opacity: 0, y: 40 }}
@@ -63,7 +63,7 @@ function Hero() {
           transition={{ delay: 0.9, duration: 0.8 }}
           className="mt-6 max-w-xl text-base text-white/70 md:text-lg"
         >
-          Kigali's juiciest burgers, tacos and wings — built bold at Burger Bros Kisimenti.
+          Home of the Akabumbe. Juicy burgers, wraps, wings and sandwiches — delivered hot across Kigali.
         </motion.p>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -229,13 +229,13 @@ function Story() {
     return () => ctx.revert();
   }, []);
   const text =
-    "Born in Kisimenti, raised on flames. Burger Bros has grown into Kigali's go-to spot for stacked, juicy burgers — now serving Kisimenti and Nyamirambo, with delivery citywide.";
+    "Born in Kigali, raised on flames. Best Burger is the home of the Akabumbe — a stacked, juicy signature that's earned its name on every street we deliver to.";
   return (
     <section className="relative bg-ink py-32">
-      <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-12 px-6 md:grid-cols-2">
+      <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-12 px-6 ">
         <div ref={ref}>
           <p className="text-xs font-semibold tracking-[0.4em] text-flame uppercase">Our Story</p>
-          <h2 className="mt-3 font-display text-5xl text-white md:text-6xl">From Kisimenti, with fire.</h2>
+          <h2 className="mt-3 font-display text-5xl text-white md:text-6xl">From Kigali, with fire.</h2>
           <p className="mt-8 text-lg leading-relaxed text-white/70">
             {text.split(" ").map((w, i) => (
               <span key={i} data-word className="inline-block">
@@ -247,7 +247,7 @@ function Story() {
             to="/branches"
             className="mt-8 inline-block rounded-full border border-flame/60 px-6 py-3 text-sm font-bold tracking-widest text-flame hover:bg-flame hover:text-white transition-colors"
           >
-            FIND A BRANCH →
+            FIND US →
           </Link>
         </div>
         <motion.div
@@ -266,7 +266,7 @@ function Story() {
           <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent" />
           <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_50%_60%,transparent_30%,rgba(0,0,0,0.6))]" />
           <div className="absolute bottom-6 left-6 right-6">
-            <p className="font-display text-xs uppercase tracking-[0.4em] text-flame">Kisimenti · Kigali</p>
+            <p className="font-display text-xs uppercase tracking-[0.4em] text-flame">KGFL · Kigali</p>
             <p className="mt-2 font-display text-3xl text-white">Hand-fired. Every patty. Every shift.</p>
           </div>
         </motion.div>
@@ -277,10 +277,10 @@ function Story() {
 
 function DeliveryStrip() {
   const items = [
-    { label: "Vuba Vuba", href: DELIVERY.vubaVuba },
-    { label: "Isokko", href: DELIVERY.isokko },
-    { label: "Direct Delivery", href: `tel:${DELIVERY.directPhone.replace(/\s/g, "")}` },
-    { label: "@burger_bros_kigali", href: DELIVERY.instagram },
+    { label: `Free Delivery · ${DELIVERY.freeDeliveryWindow}`, href: `tel:${DELIVERY.directPhone.replace(/\s/g, "")}` },
+    { label: DELIVERY.directPhone, href: `tel:${DELIVERY.directPhone.replace(/\s/g, "")}` },
+    { label: DELIVERY.altPhone, href: `tel:${DELIVERY.altPhone.replace(/\s/g, "")}` },
+    { label: "@bestburger_kgl", href: DELIVERY.instagram },
   ];
   return (
     <section className="border-y border-white/10 bg-black py-8">
@@ -383,9 +383,9 @@ function BranchTeaser() {
   return (
     <section className="bg-ink py-32">
       <div className="mx-auto max-w-7xl px-6">
-        <p className="text-xs font-semibold tracking-[0.4em] text-flame uppercase">Two Locations</p>
+        <p className="text-xs font-semibold tracking-[0.4em] text-flame uppercase">Visit Us</p>
         <h2 className="mt-3 font-display text-5xl text-white md:text-6xl">Come find us.</h2>
-        <div className="mt-10 grid gap-6 md:grid-cols-2">
+        <div className="mt-10 grid gap-6 ">
           {BRANCHES.map((b) => (
             <div key={b.id} className="rounded-3xl border border-white/10 bg-zinc-900/60 p-8">
               <p className="font-display text-3xl text-white">{b.name}</p>
@@ -410,8 +410,8 @@ function BranchTeaser() {
 }
 
 const ATMOSPHERE = [
-  { src: atmInterior, alt: "Warm neon-lit interior of Burger Bros Kisimenti", label: "The Room" },
-  { src: atmTakeaway, alt: "Hands holding a freshly wrapped Burger Bros burger", label: "To Go" },
+  { src: atmInterior, alt: "Warm neon-lit interior of Best Burger Kigali", label: "The Room" },
+  { src: atmTakeaway, alt: "Hands holding a freshly wrapped Best Burger Kigali burger", label: "To Go" },
   { src: atmSpread, alt: "Overhead table spread of burgers, fries and drinks", label: "The Spread" },
 ];
 

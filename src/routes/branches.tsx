@@ -5,10 +5,10 @@ import { BRANCHES } from "@/data/menu";
 export const Route = createFileRoute("/branches")({
   head: () => ({
     meta: [
-      { title: "Branches — Burger Bros Kisimenti" },
-      { name: "description", content: "Find Burger Bros: Kisimenti (KG 115 St) and Nyamirambo branches in Kigali. Open daily 12pm–11:30pm." },
-      { property: "og:title", content: "Branches — Burger Bros Kisimenti" },
-      { property: "og:description", content: "Kisimenti and Nyamirambo. Open daily 12pm–11:30pm." },
+      { title: "Find Us — Best Burger Kigali" },
+      { name: "description", content: "Find Best Burger Kigali at the Kigali Gourmet Foods Lab (KGFL). Free delivery 8 AM–12 PM daily." },
+      { property: "og:title", content: "Find Us — Best Burger Kigali" },
+      { property: "og:description", content: "Located at KGFL · Free delivery 8 AM–12 PM daily." },
     ],
     links: [{ rel: "canonical", href: "/branches" }],
   }),
@@ -20,22 +20,22 @@ function BranchesPage() {
     <SiteLayout>
       <section className="border-b border-white/10 bg-ink py-16">
         <div className="mx-auto max-w-7xl px-6">
-          <p className="text-xs font-semibold tracking-[0.4em] text-flame uppercase">Our Branches</p>
-          <h1 className="mt-3 font-display text-5xl text-white md:text-7xl">Two doors. Same fire.</h1>
+          <p className="text-xs font-semibold tracking-[0.4em] text-flame uppercase">Find Us</p>
+          <h1 className="mt-3 font-display text-5xl text-white md:text-7xl">One door. All the flavour.</h1>
         </div>
       </section>
       <section className="bg-ink py-12">
-        <div className="mx-auto grid max-w-7xl gap-8 px-6 md:grid-cols-2">
+        <div className="mx-auto grid max-w-7xl gap-8 px-6 md:grid-cols-1">
           {BRANCHES.map((b) => (
             <div key={b.id} className="overflow-hidden rounded-3xl border border-white/10 bg-zinc-900/60">
               <iframe
-                title={`Map of Burger Bros ${b.name}`}
-                src={`https://www.google.com/maps?q=${encodeURIComponent("Burger Bros " + b.name + " Kigali")}&output=embed`}
+                title={`Map of Best Burger ${b.name}`}
+                src={`https://www.google.com/maps?q=${encodeURIComponent("Kigali Gourmet Foods Lab KGFL Kigali")}&output=embed`}
                 loading="lazy"
                 className="h-64 w-full border-0"
               />
               <div className="p-7">
-                <p className="text-xs font-bold uppercase tracking-[0.3em] text-flame">{b.id === "kisimenti" ? "Original" : "Branch"}</p>
+                <p className="text-xs font-bold uppercase tracking-[0.3em] text-flame">Flagship</p>
                 <h2 className="mt-2 font-display text-4xl text-white">{b.name}</h2>
                 <p className="mt-2 text-white/60">{b.address}</p>
                 <p className="mt-1 text-sm text-white/40">{b.hours}</p>

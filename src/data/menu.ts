@@ -36,27 +36,27 @@ export type MenuItem = {
 export const HERO_IMAGE = bbHero;
 
 export const MENU: MenuItem[] = [
-  // Burgers
-  { id: "gourmet-cheeseburger", name: "Gourmet Cheeseburger", category: "burger", price: 7500, description: "Double beef patty, tomato, cheddar, brioche bun, chips & sauce.", image: bbGourmet, bestSeller: true },
-  { id: "tokyo-katsu", name: "Tokyo Chicken Katsu Burger", category: "burger", price: 8500, description: "Crispy panko chicken, slaw, tonkatsu glaze.", image: bbTokyo, bestSeller: true },
-  { id: "drunken-granny", name: "Drunken Granny Burger", category: "burger", price: 9000, description: "Stacked double beef, caramelised onions, whiskey glaze.", image: bbDrunken, bestSeller: true },
-  { id: "champions-breakfast", name: "Champions Breakfast Burger", category: "burger", price: 8000, description: "Beef patty, fried egg, bacon, melted cheddar.", image: bbChampions },
-  { id: "bluecheese", name: "Bluecheese Burger", category: "burger", price: 9000, description: "Juicy beef, blue cheese crumble, caramelised onions.", image: bbBlue },
-  { id: "moroccan-falafel", name: "Moroccan Falafel Burger", category: "burger", price: 8000, description: "Spiced falafel, tahini, pickled veg. Veggie.", image: bbFalafel },
-  { id: "crispy-fish", name: "Crispy Fish Burger", category: "burger", price: null, description: "Battered fish fillet, tartar, lettuce. Ask in store.", image: bbFish },
+  // Burgers — the Best Burger lineup
+  { id: "akabumbe", name: "Akabumbe Burger", category: "burger", price: 8500, description: "Our signature. Stacked beef, melted cheese, secret Akabumbe sauce, toasted bun — the one everyone comes back for.", image: bbDrunken, bestSeller: true },
+  { id: "classic-beef", name: "Classic Beef Burger", category: "burger", price: 6500, description: "Juicy seasoned beef patty, lettuce, tomato, onions, house sauce.", image: bbGourmet, bestSeller: true },
+  { id: "cheese-burger", name: "Cheese Burger", category: "burger", price: 7000, description: "Flame-grilled beef patty smothered in melted cheddar.", image: bbBlue, bestSeller: true },
+  { id: "chicken-katsu", name: "Chicken Katsu Burger", category: "burger", price: 7500, description: "Crispy on the outside, juicy on the inside — panko chicken, slaw, spicy mayo.", image: bbTokyo, bestSeller: true },
+  { id: "double-cheese", name: "Double Cheese Burger", category: "burger", price: 9000, description: "Two beef patties, double cheese, double pickles, double trouble.", image: bbChampions },
+  { id: "veggie-falafel", name: "Veggie Falafel Burger", category: "burger", price: 6500, description: "Spiced falafel patty, tahini, fresh veg. Fully vegetarian.", image: bbFalafel },
+  { id: "fish-burger", name: "Crispy Fish Burger", category: "burger", price: null, description: "Battered fish fillet, tartar sauce, lettuce. Ask for availability.", image: bbFish },
 
-  // Tacos
-  { id: "katsu-tacos", name: "Chicken Katsu Tacos", category: "taco", price: 8500, description: "Crispy chicken, slaw, spicy mayo, soft tortillas.", image: bbKatsuTacos },
-  { id: "beef-tacos", name: "Cheesy Beef Tacos", category: "taco", price: 7500, description: "Seasoned beef, melted cheese, fresh cilantro.", image: bbBeefTacos },
+  // Wraps & Sandwiches
+  { id: "chicken-wrap", name: "Chicken Wrap", category: "taco", price: 6000, description: "Grilled chicken, fresh veg, garlic sauce wrapped in a soft tortilla.", image: bbKatsuTacos },
+  { id: "beef-sandwich", name: "Beef Sandwich", category: "taco", price: 6500, description: "Tender beef strips, caramelised onions, cheese in toasted bread.", image: bbBeefTacos },
 
   // Sides + Wings
-  { id: "fries", name: "Potato Chips (Large)", category: "side", price: 3500, description: "Golden, hand-cut, sea salt.", image: bbFries },
-  { id: "wings", name: "Chicken Wings", category: "wings", price: 7500, description: "Juicy, saucy, addictive. (Dine-in 7,000)", image: bbWings, bestSeller: true },
+  { id: "fries", name: "Crispy Fries (Large)", category: "side", price: 3000, description: "Golden, hand-cut, lightly salted.", image: bbFries },
+  { id: "wings", name: "Chicken Wings", category: "wings", price: 6500, description: "Juicy, saucy, addictive. Choose mild or spicy.", image: bbWings, bestSeller: true },
 
-  // Packs
-  { id: "lunch-pack", name: "Burger Bros Lunch Pack", category: "pack", price: 7000, description: "Burger + fries + drink. One pack.", image: bbLunchPack },
-  { id: "egg-bacon-pack", name: "Egg & Bacon Lunch Pack", category: "pack", price: 7000, description: "Fried egg, crispy bacon, hash. One pack.", image: bbEggBacon },
-  { id: "ultimate-combo", name: "Ultimate BB Combo Pack", category: "pack", price: 46000, description: "The feast — burgers, wings, fries, tacos, drinks. Built for the crew.", image: bbCombo, bestSeller: true },
+  // Combos & Packs
+  { id: "lunch-pack", name: "Best Burger Lunch Pack", category: "pack", price: 7000, description: "Burger + fries + drink. The midday move.", image: bbLunchPack },
+  { id: "breakfast-pack", name: "Egg & Bacon Pack", category: "pack", price: 6500, description: "Fried egg, crispy bacon, hash — fueled up by 9 AM.", image: bbEggBacon },
+  { id: "family-combo", name: "Family Combo Pack", category: "pack", price: 35000, description: "4 burgers, 2 wings buckets, 2 large fries, 4 drinks. Built to share.", image: bbCombo, bestSeller: true },
 
   // Beverages
   { id: "exo", name: "EXO", category: "beverage", price: 3000 },
@@ -87,7 +87,7 @@ export const MENU: MenuItem[] = [
 export const CATEGORY_LABELS: Record<MenuCategory, string> = {
   best: "Best Sellers",
   burger: "Burgers",
-  taco: "Tacos",
+  taco: "Wraps & Sandwiches",
   side: "Sides",
   wings: "Wings",
   pack: "Packs",
@@ -101,27 +101,21 @@ export function formatRWF(n: number | null | undefined): string {
 
 export const BRANCHES = [
   {
-    id: "kisimenti",
-    name: "Kisimenti",
-    address: "House 1, KG 115 St, Kigali, Rwanda",
-    phones: ["+250 795 288 854", "+250 795 301 311"],
-    hours: "12:00 PM – 11:30 PM, daily",
-    mapsUrl: "https://www.google.com/maps/search/?api=1&query=Burger+Bros+Kisimenti+Kigali",
-  },
-  {
-    id: "nyamirambo",
-    name: "Nyamirambo",
-    address: "Nyamirambo, Kigali, Rwanda",
-    phones: ["+250 786 859 786"],
-    hours: "12:00 PM – 11:30 PM, daily",
-    mapsUrl: "https://www.google.com/maps/search/?api=1&query=Burger+Bros+Nyamirambo+Kigali",
+    id: "kgfl",
+    name: "KGFL Kigali",
+    address: "Kigali Gourmet Foods Lab (KGFL), Kigali, Rwanda",
+    phones: ["+250 788 218 567", "+250 795 579 050"],
+    hours: "Daily · Free delivery 8 AM – 12 PM",
+    mapsUrl: "https://www.google.com/maps/search/?api=1&query=Kigali+Gourmet+Foods+Lab",
   },
 ] as const;
 
 export const DELIVERY = {
-  vubaVuba: "https://vubavuba.rw",
-  isokko: "https://isokko.com",
-  directPhone: "+250 789 286 766",
-  whatsapp: "+250795288854", // primary line for WhatsApp orders
-  instagram: "https://instagram.com/burger_bros_kigali",
+  directPhone: "+250 788 218 567",
+  altPhone: "+250 795 579 050",
+  whatsapp: "+250788218567", // primary WhatsApp line
+  whatsappAlt: "+250795579050",
+  instagram: "https://instagram.com/bestburger_kgl",
+  tiktok: "https://www.tiktok.com/@bestburger_kgl",
+  freeDeliveryWindow: "8 AM – 12 PM, daily",
 };
