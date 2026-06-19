@@ -410,8 +410,8 @@ function BranchTeaser() {
 }
 
 const ATMOSPHERE = [
-  { src: atmInterior, alt: "Warm neon-lit interior of Burger Bros Kisimenti", label: "The Room" },
-  { src: atmTakeaway, alt: "Hands holding a freshly wrapped Burger Bros burger", label: "To Go" },
+  { src: atmInterior, alt: "Warm neon-lit interior of Best Burger Kigali", label: "The Room" },
+  { src: atmTakeaway, alt: "Hands holding a freshly wrapped Best Burger Kigali burger", label: "To Go" },
   { src: atmSpread, alt: "Overhead table spread of burgers, fries and drinks", label: "The Spread" },
 ];
 
