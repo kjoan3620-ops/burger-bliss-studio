@@ -6,26 +6,13 @@
 // You can pass additional config via defineConfig({ vite: { ... }, etc... }) if needed.
 import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 
-// Force a fully static build: Nitro emits prerendered HTML + client assets into
-// dist/client, with no Node/Worker server required at runtime (Netlify static).
-process.env.NITRO_PRESET = "static";
-
 export default defineConfig({
+  // Disable Nitro entirely — produce a Vite-only static SPA build in dist/client
+  // for Netlify static hosting. No Node/Worker server required at runtime;
+  // client-side routing is handled by the SPA redirect in netlify.toml.
+  nitro: false,
   tanstackStart: {
-    // Redirect TanStack Start's bundled server entry to src/server.ts (our SSR error wrapper).
-    // nitro/vite builds from this
+    // Harmless when nitro is disabled; kept so dev/SSR tooling still resolves.
     server: { entry: "server" },
-    prerender: {
-      enabled: true,
-      crawlLinks: true,
-      failOnError: false,
-    },
-    pages: [
-      { path: "/", prerender: { enabled: true, crawlLinks: true } },
-      { path: "/menu", prerender: { enabled: true } },
-      { path: "/order", prerender: { enabled: true } },
-      { path: "/branches", prerender: { enabled: true } },
-      { path: "/contact", prerender: { enabled: true } },
-    ],
   },
 });
