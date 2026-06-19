@@ -8,10 +8,10 @@ import { useCart } from "@/lib/cart";
 export const Route = createFileRoute("/menu")({
   head: () => ({
     meta: [
-      { title: "Menu — Burger Bros Kisimenti" },
-      { name: "description", content: "Browse Burger Bros Kisimenti's full menu: burgers, tacos, wings, packs and drinks. Order online." },
-      { property: "og:title", content: "Menu — Burger Bros Kisimenti" },
-      { property: "og:description", content: "Burgers, tacos, wings, lunch packs, drinks — all on the Burger Bros menu." },
+      { title: "Menu — Best Burger Kigali" },
+      { name: "description", content: "Browse the Best Burger Kigali menu: Akabumbe, classic & cheese burgers, chicken katsu, wraps, wings, packs and drinks." },
+      { property: "og:title", content: "Menu — Best Burger Kigali" },
+      { property: "og:description", content: "Akabumbe, classic burgers, wraps, wings, lunch packs and drinks." },
     ],
     links: [{ rel: "canonical", href: "/menu" }],
   }),
@@ -22,7 +22,7 @@ const TABS: { id: MenuCategory | "all"; label: string }[] = [
   { id: "all", label: "All" },
   { id: "best", label: "Best Sellers" },
   { id: "burger", label: "Burgers" },
-  { id: "taco", label: "Tacos" },
+  { id: "taco", label: "Wraps & Sandwiches" },
   { id: "wings", label: "Wings" },
   { id: "side", label: "Sides" },
   { id: "pack", label: "Packs" },
@@ -47,7 +47,7 @@ function MenuPage() {
           <p className="text-xs font-semibold tracking-[0.4em] text-flame uppercase">The Menu</p>
           <h1 className="mt-3 font-display text-5xl text-white md:text-7xl">Built bold. Priced fair.</h1>
           <p className="mt-4 max-w-2xl text-white/60">
-            Everything on the Burger Bros board. Tap any item to add it to your order.
+            Everything on the Best Burger board. Tap any item to add it to your order.
           </p>
         </div>
       </section>

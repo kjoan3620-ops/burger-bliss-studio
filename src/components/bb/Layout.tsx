@@ -20,9 +20,9 @@ function Header() {
     <header className="sticky top-0 z-40 border-b border-white/10 bg-black/70 backdrop-blur">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-3">
         <Link to="/" className="flex items-center gap-2">
-          <img src={logo} alt="Burger Bros Kisimenti" className="h-9 w-9 object-contain" />
+          <img src={logo} alt="Best Burger Kigali" className="h-9 w-9 object-contain" />
           <span className="hidden font-display text-xl tracking-widest text-white sm:inline">
-            BURGER BROS <span className="text-flame">KISIMENTI</span>
+            BEST BURGER <span className="text-flame">KIGALI</span>
           </span>
         </Link>
         <nav className="hidden gap-7 text-sm font-medium text-white/70 md:flex">
@@ -175,9 +175,9 @@ function Footer() {
         <div>
           <div className="flex items-center gap-2">
             <img src={logo} alt="" className="h-10 w-10 animate-spin-slow object-contain" />
-            <span className="font-display text-lg tracking-widest text-white">BURGER BROS</span>
+            <span className="font-display text-lg tracking-widest text-white">BEST BURGER</span>
           </div>
-          <p className="mt-3 text-sm">Kigali's juiciest burgers — fast, bold, unforgettable.</p>
+          <p className="mt-3 text-sm">Home of the Akabumbe. Juicy, fast, unforgettable — delivered across Kigali.</p>
         </div>
         <div>
           <p className="mb-3 font-display tracking-widest text-white">EXPLORE</p>
@@ -190,7 +190,7 @@ function Footer() {
           </ul>
         </div>
         <div>
-          <p className="mb-3 font-display tracking-widest text-white">BRANCHES</p>
+          <p className="mb-3 font-display tracking-widest text-white">FIND US</p>
           <ul className="space-y-2 text-sm">
             {BRANCHES.map((b) => (
               <li key={b.id}>
@@ -202,14 +202,17 @@ function Footer() {
         </div>
         <div>
           <p className="mb-3 font-display tracking-widest text-white">FOLLOW</p>
-          <a href={DELIVERY.instagram} target="_blank" rel="noreferrer" className="text-sm hover:text-flame">
-            @burger_bros_kigali
+          <a href={DELIVERY.instagram} target="_blank" rel="noreferrer" className="block text-sm hover:text-flame">
+            Instagram · @bestburger_kgl
           </a>
-          <p className="mt-4 text-sm">Delivery: Vuba Vuba · Isokko · Direct line</p>
+          <a href={DELIVERY.tiktok} target="_blank" rel="noreferrer" className="mt-1 block text-sm hover:text-flame">
+            TikTok · @bestburger_kgl
+          </a>
+          <p className="mt-4 text-sm">Free delivery {DELIVERY.freeDeliveryWindow}</p>
         </div>
       </div>
       <p className="mt-10 text-center text-xs text-white/30">
-        © {new Date().getFullYear()} Burger Bros Kisimenti. All rights reserved.
+        © {new Date().getFullYear()} Best Burger Kigali. All rights reserved.
       </p>
     </footer>
   );

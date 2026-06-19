@@ -7,10 +7,10 @@ import { BRANCHES, DELIVERY, formatRWF } from "@/data/menu";
 export const Route = createFileRoute("/order")({
   head: () => ({
     meta: [
-      { title: "Order — Burger Bros Kisimenti" },
-      { name: "description", content: "Place an order at Burger Bros Kisimenti via phone, WhatsApp, Vuba Vuba or Isokko." },
-      { property: "og:title", content: "Order — Burger Bros Kisimenti" },
-      { property: "og:description", content: "Order via phone, WhatsApp, Vuba Vuba or Isokko." },
+      { title: "Order — Best Burger Kigali" },
+      { name: "description", content: "Place an order at Best Burger Kigali via phone or WhatsApp. Free delivery 8 AM–12 PM daily." },
+      { property: "og:title", content: "Order — Best Burger Kigali" },
+      { property: "og:description", content: "Order via WhatsApp or phone. Free delivery 8 AM–12 PM." },
     ],
     links: [{ rel: "canonical", href: "/order" }],
   }),
@@ -21,13 +21,13 @@ function OrderPage() {
   const { resolved, subtotal, setQty, remove, clear, count } = useCart();
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
-  const [branchId, setBranchId] = useState<(typeof BRANCHES)[number]["id"]>("kisimenti");
+  const [branchId, setBranchId] = useState<(typeof BRANCHES)[number]["id"]>(BRANCHES[0].id);
   const branch = BRANCHES.find((b) => b.id === branchId)!;
 
   const message = useMemo(() => {
     const lines = resolved.map((r) => `• ${r.qty}× ${r.item.name} — ${formatRWF(r.lineTotal)}`).join("\n");
     return (
-      `Hi Burger Bros ${branch.name}! I'd like to order:\n\n${lines}\n\n` +
+      `Hi Best Burger Kigali! I'd like to order:\n\n${lines}\n\n` +
       `Subtotal: ${formatRWF(subtotal)}\n` +
       (name ? `Name: ${name}\n` : "") +
       (phone ? `Phone: ${phone}\n` : "")
@@ -122,22 +122,24 @@ function OrderPage() {
                   className="mt-1 w-full rounded-xl border border-white/15 bg-black/50 px-4 py-2 text-white placeholder:text-white/30 focus:border-flame focus:outline-none"
                 />
               </div>
-              <div>
-                <label className="text-xs uppercase tracking-widest text-white/50">Branch</label>
-                <div className="mt-1 grid grid-cols-2 gap-2">
-                  {BRANCHES.map((b) => (
-                    <button
-                      key={b.id}
-                      onClick={() => setBranchId(b.id)}
-                      className={`rounded-xl border px-3 py-2 text-sm font-semibold ${
-                        branchId === b.id ? "border-flame bg-flame/10 text-flame" : "border-white/15 text-white/70 hover:border-white/30"
-                      }`}
-                    >
-                      {b.name}
-                    </button>
-                  ))}
+              {BRANCHES.length > 1 && (
+                <div>
+                  <label className="text-xs uppercase tracking-widest text-white/50">Branch</label>
+                  <div className="mt-1 grid grid-cols-2 gap-2">
+                    {BRANCHES.map((b) => (
+                      <button
+                        key={b.id}
+                        onClick={() => setBranchId(b.id)}
+                        className={`rounded-xl border px-3 py-2 text-sm font-semibold ${
+                          branchId === b.id ? "border-flame bg-flame/10 text-flame" : "border-white/15 text-white/70 hover:border-white/30"
+                        }`}
+                      >
+                        {b.name}
+                      </button>
+                    ))}
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
 
             <div className="mt-8 space-y-3">
@@ -156,22 +158,17 @@ function OrderPage() {
                 href={callHref}
                 className="block rounded-full border border-flame/50 py-3 text-center font-bold tracking-widest text-flame hover:bg-flame hover:text-white"
               >
-                CALL {branch.name.toUpperCase()} — {branch.phones[0]}
+                CALL US — {branch.phones[0]}
               </a>
-              <div className="grid grid-cols-2 gap-3 pt-3">
-                <a href={DELIVERY.vubaVuba} target="_blank" rel="noreferrer" className="rounded-full border border-white/20 py-2 text-center text-xs font-bold tracking-widest text-white hover:bg-white/10">
-                  VUBA VUBA
-                </a>
-                <a href={DELIVERY.isokko} target="_blank" rel="noreferrer" className="rounded-full border border-white/20 py-2 text-center text-xs font-bold tracking-widest text-white hover:bg-white/10">
-                  ISOKKO
-                </a>
-              </div>
               <a
-                href={`tel:${DELIVERY.directPhone.replace(/\s/g, "")}`}
+                href={`tel:${DELIVERY.altPhone.replace(/\s/g, "")}`}
                 className="block rounded-full border border-white/20 py-2 text-center text-xs font-bold tracking-widest text-white hover:bg-white/10"
               >
-                DIRECT DELIVERY · {DELIVERY.directPhone}
+                ALT LINE · {DELIVERY.altPhone}
               </a>
+              <p className="pt-2 text-center text-[11px] uppercase tracking-widest text-flame">
+                Free delivery {DELIVERY.freeDeliveryWindow}
+              </p>
               {resolved.length > 0 && (
                 <button onClick={clear} className="block w-full py-2 text-center text-xs uppercase tracking-widest text-white/40 hover:text-white">
                   Clear cart
